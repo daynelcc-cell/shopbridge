@@ -1,0 +1,1040 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#005bff">
+<title>SHOPBRIDGE | Marketplace internacional</title>
+<style>
+:root{
+ --blue:#075bfa;--blue2:#287cff;--navy:#17243b;
+ --bg:#f3f6fb;--white:#fff;--text:#25334b;
+ --muted:#77849a;--line:#e5eaf2;--green:#0caa70;
+ --red:#df4646;--yellow:#ffdc59;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:var(--text)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.header{background:var(--blue);color:white;padding:13px 4%;display:flex;align-items:center;gap:18px;position:sticky;top:0;z-index:20}
+.logo{font-size:25px;font-weight:900;white-space:nowrap;letter-spacing:-1px}
+.logo span{color:var(--yellow)}
+.search{display:flex;flex:1;background:white;border-radius:9px;overflow:hidden}
+.search input{width:100%;min-width:0;border:0;padding:13px;outline:none}
+.search button{border:0;background:#e8efff;color:var(--blue);padding:0 18px;font-weight:bold}
+.header-btn{border:0;background:transparent;color:white;font-weight:bold;white-space:nowrap}
+.header-btn span{display:block;font-size:21px}
+.nav{background:white;display:flex;gap:20px;padding:13px 4%;overflow:auto;white-space:nowrap;border-bottom:1px solid var(--line)}
+.nav button{border:0;background:none;font-size:13px;font-weight:bold;color:#3c4b64}
+.nav button:hover{color:var(--blue)}
+main{max-width:1450px;margin:auto;padding:20px 4% 50px}
+.page{display:none}
+.page.active{display:block}
+.hero{background:linear-gradient(115deg,#0645c6,#2787ff);border-radius:18px;color:white;padding:32px;display:flex;justify-content:space-between;align-items:center;gap:15px;min-height:220px}
+.hero h1{font-size:clamp(27px,4vw,43px);margin:10px 0}
+.hero p{max-width:570px;line-height:1.5}
+.hero-art{font-size:100px}
+.hero button{background:var(--yellow);border:0;padding:12px 20px;border-radius:8px;font-weight:bold}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:27px 0 15px}
+.section-head h2{font-size:21px;margin:0}
+.small{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.categories{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.category{background:white;border:1px solid var(--line);border-radius:12px;padding:16px 7px;text-align:center;font-weight:bold;color:var(--text)}
+.category span{display:block;font-size:30px;margin-bottom:7px}
+.category:hover{border-color:var(--blue);color:var(--blue)}
+.card{background:white;border:1px solid var(--line);border-radius:13px;overflow:hidden}
+.card-body{padding:13px}
+.product-image{height:160px;background:#f5f7fb;display:flex;align-items:center;justify-content:center;font-size:65px}
+.product-image img{width:100%;height:100%;object-fit:contain}
+.product-name{font-size:14px;font-weight:bold;min-height:36px;line-height:1.4}
+.price{font-size:22px;font-weight:900;margin:9px 0 3px}
+.old-price{text-decoration:line-through;color:#929bad;font-size:12px}
+.discount{font-size:11px;color:#d33;background:#ffe7e7;padding:4px 7px;border-radius:5px}
+.rating{color:#dc9900;font-size:12px;margin:8px 0}
+.btn{border:0;border-radius:8px;background:var(--blue);color:white;padding:11px 15px;font-weight:bold}
+.btn:hover{background:#0047cf}
+.btn-light{background:#eaf1ff;color:var(--blue)}
+.btn-danger{background:#ffe8e8;color:#bd3030}
+.btn-green{background:var(--green);color:white}
+.btn-yellow{background:var(--yellow);color:#25334b}
+.btn-block{width:100%}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}
+.toolbar input,.toolbar select{padding:10px;border:1px solid var(--line);border-radius:8px;background:white}
+.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:20px;margin:15px 0}
+.panel h2{margin-top:0}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.field{display:flex;flex-direction:column;gap:6px;margin:9px 0}
+.field label{font-size:13px;font-weight:bold}
+.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:8px;background:white}
+.field textarea{min-height:85px;resize:vertical}
+.service-card{background:white;border:1px solid var(--line);padding:18px;border-radius:13px}
+.service-icon{font-size:35px}
+.service-card h3{margin:9px 0}
+.muted{font-size:13px;color:var(--muted);line-height:1.5}
+.badge{display:inline-block;background:#eaf1ff;color:var(--blue);padding:5px 9px;border-radius:20px;font-size:11px;font-weight:bold}
+.rate{font-size:27px;font-weight:900;color:var(--blue)}
+.cart-row,.list-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.total{text-align:right;font-size:23px;font-weight:900;margin:17px 0}
+.empty{text-align:center;background:white;padding:30px;border-radius:12px;color:var(--muted)}
+.hidden{display:none!important}
+.admin-tabs{display:flex;gap:8px;overflow:auto;margin:15px 0}
+.admin-tabs button{white-space:nowrap}
+.admin-section{display:none}
+.admin-section.active{display:block}
+.admin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.admin-box{background:#f7f9fd;border:1px solid var(--line);border-radius:10px;padding:14px}
+.admin-box h3{margin-top:0}
+footer{background:#17243b;color:white;text-align:center;padding:32px 5%;margin-top:25px}
+footer p{color:#c0cadd;font-size:13px}
+.floating{position:fixed;right:17px;bottom:18px;z-index:15;border:0;border-radius:40px;background:var(--blue);color:white;padding:14px 18px;font-weight:bold;box-shadow:0 5px 18px #0002}
+.modal{position:fixed;inset:0;background:#0008;z-index:50;display:flex;align-items:center;justify-content:center;padding:15px}
+.modal-box{background:white;border-radius:15px;padding:20px;width:min(600px,100%);max-height:85vh;overflow:auto}
+.modal-close{float:right;border:0;border-radius:7px;background:#eaf1ff;padding:8px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{text-align:left;border-bottom:1px solid var(--line);padding:9px}
+footer .logo{font-size:23px}
+@media(max-width:850px){
+ .grid{grid-template-columns:repeat(3,1fr)}
+ .categories{grid-template-columns:repeat(3,1fr)}
+ .delivery{display:none}
+}
+@media(max-width:560px){
+ .header{gap:8px;padding:11px 3%}
+ .logo{font-size:19px}
+ .header-btn{font-size:10px}
+ .header-btn span{font-size:18px}
+ .search input{padding:10px;font-size:12px}
+ .search button{padding:0 10px}
+ main{padding:14px 3% 35px}
+ .hero{padding:21px;min-height:170px}
+ .hero-art{font-size:55px}
+ .grid,.grid-3{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .product-image{height:120px;font-size:50px}
+ .card-body{padding:9px}
+ .product-name{font-size:12px}
+ .price{font-size:18px}
+ .categories{gap:8px}
+ .category{font-size:12px;padding:11px 5px}
+ .form-grid,.admin-grid{grid-template-columns:1fr}
+ .panel{padding:14px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+ <div class="logo">SHOP<span>BRIDGE</span></div>
+ <div class="search">
+  <input id="globalSearch" placeholder="¿Qué estás buscando?" oninput="searchProducts()">
+  <button onclick="searchProducts()">⌕</button>
+ </div>
+ <button class="header-btn" onclick="go('account')"><span>♙</span>Cuenta</button>
+ <button class="header-btn" onclick="go('cart')"><span>🛒</span><b id="cartCount">0</b></button>
+</header>
+
+<nav class="nav">
+ <button onclick="go('home')">Inicio</button>
+ <button onclick="go('store')">Tienda</button>
+ <button onclick="go('recharges')">Recargas</button>
+ <button onclick="go('hotels')">Hoteles</button>
+ <button onclick="go('travel')">Viajes</button>
+ <button onclick="go('exchange')">Casa de cambio</button>
+ <button onclick="go('services')">Servicios</button>
+ <button onclick="go('classifieds')">Clasificados</button>
+ <button onclick="go('restaurants')">Restaurantes</button>
+ <button onclick="go('jobs')">Empleos</button>
+ <button onclick="go('sellers')">Vendedores</button>
+</nav>
+
+<main>
+
+<!-- INICIO -->
+<section id="home" class="page active">
+ <div class="hero">
+  <div>
+   <span class="badge">MARKETPLACE INTERNACIONAL</span>
+   <h1 id="heroTitle">Todo lo que buscas, en un solo lugar</h1>
+   <p id="heroText">Productos, servicios, viajes, tecnología y nuevas oportunidades.</p>
+   <button onclick="go('store')">EXPLORAR SHOPBRIDGE →</button>
+  </div>
+  <div class="hero-art">🛍️</div>
+ </div>
+
+ <div class="section-head"><h2>Explora nuestros departamentos</h2></div>
+ <div class="categories">
+  <button class="category" onclick="openCategory('Electrónica')"><span>📱</span>Electrónica</button>
+  <button class="category" onclick="openCategory('Hogar')"><span>🏠</span>Hogar</button>
+  <button class="category" onclick="openCategory('Moda')"><span>👕</span>Moda</button>
+  <button class="category" onclick="openCategory('Deportes')"><span>⚽</span>Deportes</button>
+  <button class="category" onclick="openCategory('Belleza')"><span>💄</span>Belleza</button>
+  <button class="category" onclick="openCategory('Automóviles')"><span>🚗</span>Automóviles</button>
+  <button class="category" onclick="openCategory('Bebés')"><span>🧸</span>Bebés</button>
+  <button class="category" onclick="openCategory('Otros')"><span>🎁</span>Otros</button>
+  <button class="category" onclick="go('hotels')"><span>🏨</span>Hoteles</button>
+  <button class="category" onclick="go('recharges')"><span>📲</span>Recargas</button>
+  <button class="category" onclick="go('services')"><span>🧰</span>Servicios</button>
+  <button class="category" onclick="go('travel')"><span>✈️</span>Viajes</button>
+ </div>
+
+ <div class="section-head"><h2>Ofertas destacadas</h2><button class="btn btn-light" onclick="go('store')">Ver todo</button></div>
+ <div id="featured" class="grid"></div>
+
+ <div class="section-head"><h2>Descubre SHOPBRIDGE</h2></div>
+ <div class="grid-3">
+  <div class="service-card"><div class="service-icon">📱</div><h3>Recargas</h3><p class="muted">Consulta opciones de recargas telefónicas internacionales.</p><button class="btn btn-light" onclick="go('recharges')">Entrar</button></div>
+  <div class="service-card"><div class="service-icon">🏨</div><h3>Hoteles</h3><p class="muted">Encuentra alojamientos y accede a plataformas de reservas.</p><button class="btn btn-light" onclick="go('hotels')">Explorar</button></div>
+  <div class="service-card"><div class="service-icon">💱</div><h3>Casa de cambio</h3><p class="muted">Consulta las tasas informativas publicadas.</p><button class="btn btn-light" onclick="go('exchange')">Consultar</button></div>
+ </div>
+</section>
+
+<!-- TIENDA -->
+<section id="store" class="page">
+ <div class="section-head"><h2>🛍️ Catálogo SHOPBRIDGE</h2><span class="badge">Productos</span></div>
+ <div class="toolbar">
+  <input id="storeSearch" placeholder="Buscar producto..." oninput="renderProducts()">
+  <select id="categoryFilter" onchange="renderProducts()">
+   <option value="">Todas las categorías</option>
+   <option>Electrónica</option><option>Hogar</option><option>Moda</option>
+   <option>Deportes</option><option>Belleza</option><option>Automóviles</option>
+   <option>Bebés</option><option>Otros</option>
+  </select>
+  <select id="sortFilter" onchange="renderProducts()">
+   <option value="default">Ordenar</option>
+   <option value="low">Precio menor</option>
+   <option value="high">Precio mayor</option>
+   <option value="name">Nombre</option>
+  </select>
+ </div>
+ <div id="productGrid" class="grid"></div>
+</section>
+
+<!-- RECARGAS -->
+<section id="recharges" class="page">
+ <div class="panel">
+  <h2>📱 Recargas telefónicas</h2>
+  <p class="muted">Consulta las ofertas y solicita una recarga. Puedes configurar los proveedores y los precios desde el administrador.</p>
+  <div class="grid-3" id="rechargeCards"></div>
+  <div class="form-grid">
+   <div class="field"><label>País</label><select id="rechargeCountry"><option>Cuba</option><option>Rusia</option><option>España</option><option>Estados Unidos</option><option>México</option><option>Otro país</option></select></div>
+   <div class="field"><label>Operador</label><input id="rechargeOperator" placeholder="Operador telefónico"></div>
+   <div class="field"><label>Número de teléfono</label><input id="rechargePhone" placeholder="Número internacional"></div>
+   <div class="field"><label>Importe deseado</label><input id="rechargeAmount" placeholder="Importe o paquete"></div>
+  </div>
+  <button class="btn" onclick="requestRecharge()">Solicitar recarga por WhatsApp</button>
+  <p class="muted">La solicitud no confirma una recarga ni procesa pagos.</p>
+ </div>
+</section>
+
+<!-- HOTELES -->
+<section id="hotels" class="page">
+ <div class="panel">
+  <h2>🏨 Hoteles y alojamientos</h2>
+  <p class="muted">Busca alojamientos en plataformas externas mientras preparamos integraciones de reservas.</p>
+  <div class="form-grid">
+   <div class="field"><label>Destino</label><input id="hotelDestination" placeholder="Ciudad o país"></div>
+   <div class="field"><label>Entrada</label><input id="hotelCheckin" type="date"></div>
+   <div class="field"><label>Salida</label><input id="hotelCheckout" type="date"></div>
+   <div class="field"><label>Huéspedes</label><input id="hotelGuests" type="number" value="2" min="1"></div>
+  </div>
+  <button class="btn" onclick="hotelSearch('booking')">Buscar en Booking</button>
+  <button class="btn btn-light" onclick="hotelSearch('trip')">Buscar en Trip.com</button>
+  <div class="section-head"><h2>Plataformas de alojamiento</h2></div>
+  <div class="grid-3">
+   <div class="service-card"><div class="service-icon">🏨</div><h3>Booking.com</h3><p class="muted">Hoteles y alojamientos.</p><a href="https://www.booking.com/" target="_blank" rel="noopener">Abrir plataforma ↗</a></div>
+   <div class="service-card"><div class="service-icon">🌍</div><h3>Trip.com</h3><p class="muted">Hoteles y viajes.</p><a href="https://www.trip.com/" target="_blank" rel="noopener">Abrir plataforma ↗</a></div>
+   <div class="service-card"><div class="service-icon">🧳</div><h3>Airbnb</h3><p class="muted">Alojamientos particulares.</p><a href="https://www.airbnb.com/" target="_blank" rel="noopener">Abrir plataforma ↗</a></div>
+  </div>
+ </div>
+</section>
+
+<!-- VIAJES -->
+<section id="travel" class="page">
+ <div class="panel">
+  <h2>✈️ Vuelos y viajes</h2>
+  <p class="muted">Consulta opciones de vuelos y planifica tus viajes mediante proveedores externos.</p>
+  <div class="form-grid">
+   <div class="field"><label>Origen</label><input id="flightOrigin" placeholder="Ciudad de salida"></div>
+   <div class="field"><label>Destino</label><input id="flightDestination" placeholder="Ciudad de llegada"></div>
+   <div class="field"><label>Fecha de ida</label><input id="flightDate" type="date"></div>
+   <div class="field"><label>Pasajeros</label><input id="flightPassengers" type="number" min="1" value="1"></div>
+  </div>
+  <button class="btn" onclick="flightSearch()">Buscar vuelos</button>
+  <div class="grid-3" style="margin-top:20px">
+   <div class="service-card"><h3>✈️ Skyscanner</h3><p class="muted">Comparación de vuelos.</p><a href="https://www.skyscanner.net/" target="_blank" rel="noopener">Abrir ↗</a></div>
+   <div class="service-card"><h3>🌐 Google Travel</h3><p class="muted">Planificación de viajes.</p><a href="https://www.google.com/travel/" target="_blank" rel="noopener">Abrir ↗</a></div>
+   <div class="service-card"><h3>🧭 Trip.com</h3><p class="muted">Vuelos y hoteles.</p><a href="https://www.trip.com/" target="_blank" rel="noopener">Abrir ↗</a></div>
+  </div>
+ </div>
+</section>
+
+<!-- CAMBIO -->
+<section id="exchange" class="page">
+ <div class="panel">
+  <h2>💱 Casa de cambio SHOPBRIDGE</h2>
+  <p class="muted">Tasas informativas publicadas manualmente por el administrador. No se realizan operaciones de cambio ni transferencias.</p>
+  <div class="rate" id="rateDisplay">1 USD = 400 CUP</div>
+  <p class="muted" id="rateDate"></p>
+  <div class="form-grid">
+   <div class="field"><label>Importe</label><input type="number" id="exchangeAmount" value="100" oninput="calculateExchange()"></div>
+   <div class="field"><label>Desde</label><select id="fromCurrency" onchange="calculateExchange()"><option>USD</option><option>EUR</option><option>RUB</option><option>CUP</option></select></div>
+   <div class="field"><label>Hacia</label><select id="toCurrency" onchange="calculateExchange()"><option>CUP</option><option>USD</option><option>EUR</option><option>RUB</option></select></div>
+  </div>
+  <div class="rate" id="exchangeResult">40 000 CUP</div>
+  <p class="muted">La calculadora utiliza las tasas configuradas. El resultado no constituye una cotización vinculante.</p>
+ </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="services" class="page">
+ <div class="section-head"><h2>🧰 Servicios profesionales</h2><span class="badge">Directorio</span></div>
+ <div class="grid-3" id="serviceCards"></div>
+ <div class="panel">
+  <h3>Publicar un servicio</h3>
+  <div class="field"><label>Nombre del servicio</label><input id="serviceName" placeholder="Ej. Reparación de teléfonos"></div>
+  <div class="field"><label>Descripción y contacto</label><textarea id="serviceDescription"></textarea></div>
+  <button class="btn" onclick="submitListing('service')">Enviar solicitud de publicación</button>
+ </div>
+</section>
+
+<!-- CLASIFICADOS -->
+<section id="classifieds" class="page">
+ <h2>🚗 Clasificados y alquileres</h2>
+ <div class="grid-3" id="classifiedCards"></div>
+ <div class="panel">
+  <h3>Publicar un anuncio</h3>
+  <div class="form-grid">
+   <div class="field"><label>Título</label><input id="classifiedName" placeholder="Ej. Apartamento en alquiler"></div>
+   <div class="field"><label>Precio orientativo</label><input id="classifiedPrice" placeholder="Precio"></div>
+  </div>
+  <div class="field"><label>Descripción y contacto</label><textarea id="classifiedDescription"></textarea></div>
+  <button class="btn" onclick="submitListing('classified')">Enviar anuncio para revisión</button>
+ </div>
+</section>
+
+<!-- RESTAURANTES -->
+<section id="restaurants" class="page">
+ <h2>🍽️ Restaurantes y comida</h2>
+ <div class="grid-3" id="restaurantCards"></div>
+ <div class="panel">
+  <h3>Registrar restaurante</h3>
+  <div class="field"><label>Nombre del negocio</label><input id="restaurantName"></div>
+  <div class="field"><label>Ciudad y descripción</label><textarea id="restaurantDescription"></textarea></div>
+  <button class="btn" onclick="submitListing('restaurant')">Solicitar publicación</button>
+ </div>
+</section>
+
+<!-- EMPLEOS -->
+<section id="jobs" class="page">
+ <h2>💼 Empleos y oportunidades</h2>
+ <div class="grid-3" id="jobCards"></div>
+ <div class="panel">
+  <h3>Publicar una oferta de empleo</h3>
+  <div class="field"><label>Puesto</label><input id="jobName" placeholder="Nombre del puesto"></div>
+  <div class="field"><label>Empresa, ciudad y requisitos</label><textarea id="jobDescription"></textarea></div>
+  <button class="btn" onclick="submitListing('job')">Enviar oferta para revisión</button>
+ </div>
+</section>
+
+<!-- VENDEDORES -->
+<section id="sellers" class="page">
+ <div class="hero">
+  <div><span class="badge">SHOPBRIDGE PARTNERS</span><h1>Abre tu tienda con nosotros</h1><p>Solicita convertirte en vendedor de SHOPBRIDGE. El propietario revisará cada solicitud.</p><button onclick="go('sellerApply')">Solicitar acceso</button></div>
+  <div class="hero-art">🏪</div>
+ </div>
+ <div class="panel">
+  <h2>Ventajas para vendedores</h2>
+  <div class="grid-3">
+   <div class="service-card">📦<h3>Publica productos</h3><p class="muted">Presenta tu catálogo.</p></div>
+   <div class="service-card">📊<h3>Gestiona tu tienda</h3><p class="muted">Organiza tus productos.</p></div>
+   <div class="service-card">🌎<h3>Encuentra clientes</h3><p class="muted">Participa en el marketplace.</p></div>
+  </div>
+ </div>
+</section>
+
+<section id="sellerApply" class="page">
+ <div class="panel">
+  <h2>📝 Solicitud de vendedor</h2>
+  <p class="muted">Todas las solicitudes requieren aprobación del propietario.</p>
+  <div class="form-grid">
+   <div class="field"><label>Nombre completo</label><input id="sellerName"></div>
+   <div class="field"><label>Nombre de la tienda</label><input id="sellerStore"></div>
+   <div class="field"><label>Correo electrónico</label><input id="sellerEmail" type="email"></div>
+   <div class="field"><label>Teléfono</label><input id="sellerPhone"></div>
+  </div>
+  <div class="field"><label>Productos o actividad</label><textarea id="sellerActivity"></textarea></div>
+  <button class="btn" onclick="submitSeller()">Enviar solicitud</button>
+ </div>
+</section>
+
+<!-- CARRITO -->
+<section id="cart" class="page">
+ <div class="panel">
+  <h2>🛒 Mi carrito</h2>
+  <div id="cartItems"></div>
+  <div class="total" id="cartTotal">Total: 0</div>
+  <button class="btn" onclick="checkout()">Solicitar pedido</button>
+  <button class="btn btn-light" onclick="go('store')">Seguir comprando</button>
+ </div>
+</section>
+
+<!-- CUENTA -->
+<section id="account" class="page">
+ <div class="panel">
+  <h2>♙ Mi cuenta</h2>
+  <p>Bienvenido a SHOPBRIDGE.</p>
+  <p class="muted">Esta versión no crea cuentas reales. Las solicitudes y pedidos se guardan localmente en el dispositivo.</p>
+  <button class="btn" onclick="go('orders')">Consultar pedidos de este dispositivo</button>
+ </div>
+</section>
+
+<section id="orders" class="page">
+ <div class="panel">
+  <h2>📦 Pedidos de este dispositivo</h2>
+  <div id="ordersList"></div>
+ </div>
+</section>
+
+<!-- ADMINISTRADOR -->
+<section id="admin" class="page">
+ <div class="panel">
+  <span class="badge">CENTRO DE CONTROL</span>
+  <h2>Administración SHOPBRIDGE</h2>
+  <h3>Daynel Caminero</h3>
+  <p class="muted">Fundador · Propietario · Administrador principal</p>
+  <div class="field"><label>Contraseña local</label><input type="password" id="adminPassword" placeholder="Contraseña de administrador"></div>
+  <button class="btn" onclick="unlockAdmin()">Entrar al administrador</button>
+  <p class="muted">La contraseña de esta versión está dentro del HTML. No es una autenticación segura para un sitio público.</p>
+
+  <div id="adminContent" class="hidden">
+   <div class="admin-tabs">
+    <button class="btn btn-light" onclick="adminTab('productsAdmin')">Productos</button>
+    <button class="btn btn-light" onclick="adminTab('ratesAdmin')">Tasas</button>
+    <button class="btn btn-light" onclick="adminTab('contentAdmin')">Portada</button>
+    <button class="btn btn-light" onclick="adminTab('requestsAdmin')">Solicitudes</button>
+    <button class="btn btn-light" onclick="adminTab('vendorsAdmin')">Vendedores</button>
+    <button class="btn btn-light" onclick="adminTab('linksAdmin')">Enlaces</button>
+    <button class="btn btn-light" onclick="adminTab('publishAdmin')">Publicar</button>
+    <button class="btn btn-light" onclick="adminTab('backupAdmin')">Copias</button>
+   </div>
+
+   <div id="productsAdmin" class="admin-section active">
+    <div class="admin-box">
+     <h3>➕ Añadir producto</h3>
+     <div class="field"><label>Nombre</label><input id="pName"></div>
+     <div class="form-grid">
+      <div class="field"><label>Precio</label><input type="number" id="pPrice"></div>
+      <div class="field"><label>Precio anterior</label><input type="number" id="pOldPrice"></div>
+     </div>
+     <div class="field"><label>Imagen: emoji o URL</label><input id="pImage" placeholder="📱 o https://..."></div>
+     <div class="field"><label>Categoría</label><select id="pCategory"><option>Electrónica</option><option>Hogar</option><option>Moda</option><option>Deportes</option><option>Belleza</option><option>Automóviles</option><option>Bebés</option><option>Otros</option></select></div>
+     <div class="field"><label>Descripción</label><textarea id="pDescription"></textarea></div>
+     <button class="btn" onclick="addProduct()">Guardar producto</button>
+    </div>
+    <h3>Productos publicados</h3>
+    <div id="adminProductList"></div>
+   </div>
+
+   <div id="ratesAdmin" class="admin-section">
+    <div class="admin-box">
+     <h3>💱 Configuración de tasas</h3>
+     <div class="form-grid">
+      <div class="field"><label>1 USD = CUP</label><input id="rateUSD" type="number"></div>
+      <div class="field"><label>1 EUR = CUP</label><input id="rateEUR" type="number"></div>
+      <div class="field"><label>1 RUB = CUP</label><input id="rateRUB" type="number"></div>
+     </div>
+     <button class="btn" onclick="saveRates()">Guardar tasas</button>
+    </div>
+   </div>
+
+   <div id="contentAdmin" class="admin-section">
+    <div class="admin-box">
+     <h3>🎨 Portada</h3>
+     <div class="field"><label>Título</label><input id="editHeroTitle"></div>
+     <div class="field"><label>Descripción</label><textarea id="editHeroText"></textarea></div>
+     <button class="btn" onclick="saveHero()">Guardar portada</button>
+    </div>
+   </div>
+
+   <div id="requestsAdmin" class="admin-section">
+    <h3>Solicitudes de publicación</h3>
+    <p class="muted">Revisa y aprueba o rechaza anuncios enviados desde este mismo dispositivo.</p>
+    <div id="adminRequests"></div>
+   </div>
+
+   <div id="vendorsAdmin" class="admin-section">
+    <h3>Solicitudes de vendedores</h3>
+    <div id="adminVendors"></div>
+   </div>
+
+   <div id="linksAdmin" class="admin-section">
+    <div class="admin-box">
+     <h3>🔗 Enlaces externos</h3>
+     <div class="field"><label>Proveedor de recargas</label><input id="linkRecharge"></div>
+     <div class="field"><label>Hoteles</label><input id="linkHotels"></div>
+     <div class="field"><label>Vuelos</label><input id="linkFlights"></div>
+     <button class="btn" onclick="saveLinks()">Guardar enlaces</button>
+    </div>
+   </div>
+
+   <div id="publishAdmin" class="admin-section">
+    <div class="admin-box">
+     <h3>🚀 Publicar nueva versión</h3>
+     <p>Genera un HTML con los datos actuales de tu tienda incorporados. Después tendrás que subir ese archivo a tu repositorio de GitHub, reemplazando el archivo anterior.</p>
+     <button class="btn btn-green btn-block" onclick="publishHTML()">GENERAR HTML ACTUALIZADO</button>
+     <p id="publishStatus" class="muted"></p>
+     <p class="muted">Este botón descarga un archivo HTML. No publica por sí solo en GitHub.</p>
+    </div>
+   </div>
+
+   <div id="backupAdmin" class="admin-section">
+    <div class="admin-box">
+     <h3>💾 Copias de seguridad</h3>
+     <button class="btn" onclick="backupData()">Descargar respaldo JSON</button>
+     <div class="field"><label>Importar respaldo</label><input type="file" id="backupFile" accept=".json" onchange="restoreData(event)"></div>
+     <button class="btn btn-danger" onclick="resetDemo()">Restaurar datos de ejemplo</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+</main>
+
+<footer>
+ <div class="logo">SHOP<span>BRIDGE</span></div>
+ <p>Tu mercado · Tus servicios · Tus oportunidades</p>
+ <p>Fundador, propietario y administrador principal: Daynel Caminero</p>
+ <p>© <span id="year"></span> SHOPBRIDGE. Todos los derechos reservados.</p>
+ <p>Las operaciones externas dependen de sus respectivos proveedores.</p>
+ <p><a href="#" onclick="go('help');return false" style="color:white">Centro de ayuda</a></p>
+</footer>
+
+<button class="floating" onclick="go('cart')">🛒 Carrito <span id="floatCount">0</span></button>
+
+<div id="modal" class="modal hidden">
+ <div class="modal-box">
+  <button class="modal-close" onclick="closeModal()">Cerrar ✕</button>
+  <div id="modalContent"></div>
+ </div>
+</div>
+
+<script type="application/json" id="published-data">
+{"version":1}
+</script>
+
+<script>
+"use strict";
+
+/* ==================================================
+   SHOPBRIDGE - DATOS INICIALES
+   La publicación incorpora los datos en el HTML.
+================================================== */
+
+const INITIAL_DATA = {
+ products:[
+  {id:1,name:"Smartphone Android",price:189,old:229,image:"📱",category:"Electrónica",description:"Teléfono inteligente para uso diario."},
+  {id:2,name:"Auriculares inalámbricos",price:29,old:39,image:"🎧",category:"Electrónica",description:"Auriculares para música y llamadas."},
+  {id:3,name:"Reloj inteligente",price:49,old:65,image:"⌚",category:"Electrónica",description:"Reloj con funciones inteligentes."},
+  {id:4,name:"Lámpara moderna",price:22,old:0,image:"💡",category:"Hogar",description:"Iluminación para tu hogar."},
+  {id:5,name:"Mochila urbana",price:35,old:45,image:"🎒",category:"Moda",description:"Mochila práctica."},
+  {id:6,name:"Zapatillas deportivas",price:55,old:70,image:"👟",category:"Deportes",description:"Calzado deportivo."},
+  {id:7,name:"Set de belleza",price:25,old:0,image:"💄",category:"Belleza",description:"Productos de cuidado personal."},
+  {id:8,name:"Cafetera",price:42,old:55,image:"☕",category:"Hogar",description:"Cafetera compacta."}
+ ],
+ cart:[],
+ orders:[],
+ requests:[],
+ vendors:[],
+ rates:{USD:400,EUR:430,RUB:4.2},
+ heroTitle:"Todo lo que buscas, en un solo lugar",
+ heroText:"Productos, servicios, viajes, tecnología y nuevas oportunidades.",
+ links:{
+  recharge:"https://www.ding.com/",
+  hotels:"https://www.booking.com/",
+  flights:"https://www.skyscanner.net/"
+ },
+ publishedVersion:1
+};
+
+function safeParse(value,fallback){
+ try{return JSON.parse(value)}catch(e){return fallback}
+}
+
+function readPublished(){
+ const el=document.getElementById("published-data");
+ if(!el)return INITIAL_DATA;
+ const d=safeParse(el.textContent,null);
+ return d&&d.products?d:INITIAL_DATA;
+}
+
+const publishedData=readPublished();
+const storageKey="shopbridge_local_v1";
+let data=loadData();
+
+function loadData(){
+ const saved=safeParse(localStorage.getItem(storageKey),null);
+ if(saved && Number(saved.publishedVersion||0)>=Number(publishedData.publishedVersion||0)){
+  return saved;
+ }
+ return JSON.parse(JSON.stringify(publishedData));
+}
+
+function saveData(){
+ data.publishedVersion=Number(data.publishedVersion||1);
+ localStorage.setItem(storageKey,JSON.stringify(data));
+}
+
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+
+function money(value){
+ return Number(value||0).toLocaleString("es-ES",{maximumFractionDigits:2});
+}
+
+function go(page){
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+ const target=document.getElementById(page);
+ if(target)target.classList.add("active");
+ if(page==="store")renderProducts();
+ if(page==="cart")renderCart();
+ if(page==="orders")renderOrders();
+ if(page==="admin")renderAdmin();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function openCategory(category){
+ go("store");
+ document.getElementById("categoryFilter").value=category;
+ renderProducts();
+}
+
+function productVisual(image){
+ if(String(image||"").startsWith("https://")||String(image||"").startsWith("http://")){
+  return `<img src="${escapeHTML(image)}" alt="Producto" onerror="this.outerHTML='📦'">`;
+ }
+ return escapeHTML(image||"📦");
+}
+
+function productCard(p){
+ const discount=p.old>p.price&&p.old>0?Math.round((1-p.price/p.old)*100):0;
+ return `<article class="card">
+  ${discount?`<div style="padding:8px 10px 0"><span class="discount">-${discount}%</span></div>`:""}
+  <div class="product-image">${productVisual(p.image)}</div>
+  <div class="card-body">
+   <div class="product-name">${escapeHTML(p.name)}</div>
+   <div class="price">${money(p.price)}</div>
+   ${p.old>p.price?`<div class="old-price">${money(p.old)}</div>`:""}
+   <div class="rating">★ ★ ★ ★ ☆ <span class="muted">Valoración no verificada</span></div>
+   <button class="btn btn-block" onclick="addCart(${Number(p.id)})">Añadir al carrito</button>
+   <button class="btn btn-light btn-block" style="margin-top:6px" onclick="showProduct(${Number(p.id)})">Ver detalles</button>
+  </div>
+ </article>`;
+}
+
+function renderProducts(){
+ const q=(document.getElementById("storeSearch")?.value||document.getElementById("globalSearch")?.value||"").toLowerCase();
+ const cat=document.getElementById("categoryFilter")?.value||"";
+ const sort=document.getElementById("sortFilter")?.value||"default";
+ let list=data.products.filter(p=>(p.name+" "+p.category+" "+p.description).toLowerCase().includes(q)&&(!cat||p.category===cat));
+ if(sort==="low")list.sort((a,b)=>a.price-b.price);
+ if(sort==="high")list.sort((a,b)=>b.price-a.price);
+ if(sort==="name")list.sort((a,b)=>a.name.localeCompare(b.name));
+ document.getElementById("productGrid").innerHTML=list.length?list.map(productCard).join(""):'<div class="empty">No hay productos que coincidan.</div>';
+}
+
+function searchProducts(){
+ go("store");
+ document.getElementById("storeSearch").value=document.getElementById("globalSearch").value;
+ renderProducts();
+}
+
+function renderFeatured(){
+ document.getElementById("featured").innerHTML=data.products.slice(0,4).map(productCard).join("");
+}
+
+function showProduct(id){
+ const p=data.products.find(x=>x.id===id);if(!p)return;
+ document.getElementById("modalContent").innerHTML=`
+  <div style="font-size:75px;text-align:center">${productVisual(p.image)}</div>
+  <h2>${escapeHTML(p.name)}</h2>
+  <div class="rate">${money(p.price)}</div>
+  <p>${escapeHTML(p.description)}</p>
+  <p class="muted">Categoría: ${escapeHTML(p.category)}</p>
+  <button class="btn" onclick="addCart(${p.id});closeModal()">Añadir al carrito</button>`;
+ document.getElementById("modal").classList.remove("hidden");
+}
+
+function closeModal(){document.getElementById("modal").classList.add("hidden")}
+
+function addCart(id){
+ const p=data.products.find(x=>x.id===id);if(!p)return;
+ const existing=data.cart.find(x=>x.id===id);
+ if(existing)existing.quantity++;
+ else data.cart.push({id:p.id,name:p.name,price:p.price,quantity:1});
+ saveData();updateCartCount();alert("Producto añadido al carrito.");
+}
+
+function updateCartCount(){
+ const count=data.cart.reduce((s,x)=>s+x.quantity,0);
+ document.getElementById("cartCount").textContent=count;
+ document.getElementById("floatCount").textContent=count;
+}
+
+function renderCart(){
+ const el=document.getElementById("cartItems");
+ if(!data.cart.length){
+  el.innerHTML='<div class="empty">Tu carrito está vacío.</div>';
+  document.getElementById("cartTotal").textContent="Total: 0";
+  return;
+ }
+ el.innerHTML=data.cart.map(x=>`
+  <div class="cart-row">
+   <div><b>${escapeHTML(x.name)}</b><div class="muted">${money(x.price)} × ${x.quantity}</div></div>
+   <div>
+    <button class="btn btn-light" onclick="quantity(${x.id},-1)">−</button>
+    ${x.quantity}
+    <button class="btn btn-light" onclick="quantity(${x.id},1)">+</button>
+    <button class="btn btn-danger" onclick="removeCart(${x.id})">×</button>
+   </div>
+  </div>`).join("");
+ const total=data.cart.reduce((s,x)=>s+x.price*x.quantity,0);
+ document.getElementById("cartTotal").textContent="Total: "+money(total);
+}
+
+function quantity(id,n){
+ const item=data.cart.find(x=>x.id===id);if(!item)return;
+ item.quantity+=n;
+ if(item.quantity<=0)data.cart=data.cart.filter(x=>x.id!==id);
+ saveData();renderCart();updateCartCount();
+}
+function removeCart(id){
+ data.cart=data.cart.filter(x=>x.id!==id);
+ saveData();renderCart();updateCartCount();
+}
+
+function checkout(){
+ if(!data.cart.length){alert("El carrito está vacío.");return}
+ const name=prompt("Nombre del comprador:");
+ if(!name)return;
+ const phone=prompt("Teléfono o WhatsApp:");
+ if(!phone)return;
+ data.orders.unshift({
+  id:Date.now(),name,phone,items:data.cart.map(x=>({...x})),
+  total:data.cart.reduce((s,x)=>s+x.price*x.quantity,0),
+  status:"Solicitud recibida",date:new Date().toLocaleString()
+ });
+ data.cart=[];
+ saveData();updateCartCount();renderCart();go("orders");
+ alert("Solicitud guardada en este dispositivo. No se ha procesado ningún pago.");
+}
+
+function renderOrders(){
+ const el=document.getElementById("ordersList");
+ if(!data.orders.length){el.innerHTML='<div class="empty">No hay pedidos guardados en este dispositivo.</div>';return}
+ el.innerHTML=data.orders.map(o=>`
+  <div class="panel">
+   <b>Pedido #${o.id}</b><p>${escapeHTML(o.name)} · ${escapeHTML(o.phone)}</p>
+   <p>${o.items.map(i=>escapeHTML(i.name)+" × "+i.quantity).join("<br>")}</p>
+   <b>${money(o.total)}</b> · <span class="badge">${escapeHTML(o.status)}</span>
+  </div>`).join("");
+}
+
+/* RECARGAS */
+
+function renderRechargeCards(){
+ const examples=[
+  {icon:"🇨🇺",name:"Cuba",desc:"Consulta las opciones de recarga para Cuba."},
+  {icon:"🇷🇺",name:"Rusia",desc:"Recargas para operadores rusos."},
+  {icon:"🌎",name:"Internacional",desc:"Otras opciones internacionales."}
+ ];
+ document.getElementById("rechargeCards").innerHTML=examples.map(x=>`
+  <div class="service-card"><div class="service-icon">${x.icon}</div><h3>${x.name}</h3><p class="muted">${x.desc}</p></div>`).join("");
+}
+
+function requestRecharge(){
+ const country=document.getElementById("rechargeCountry").value;
+ const operator=document.getElementById("rechargeOperator").value.trim();
+ const phone=document.getElementById("rechargePhone").value.trim();
+ const amount=document.getElementById("rechargeAmount").value.trim();
+ if(!phone||!amount){alert("Completa el número y el importe.");return}
+ const message=`Solicitud de recarga SHOPBRIDGE\nPaís: ${country}\nOperador: ${operator}\nTeléfono: ${phone}\nImporte: ${amount}`;
+ const url="https://wa.me/?text="+encodeURIComponent(message);
+ window.open(url,"_blank");
+}
+
+/* HOTELES Y VIAJES */
+
+function hotelSearch(provider){
+ const destination=document.getElementById("hotelDestination").value.trim();
+ if(!destination){alert("Escribe un destino.");return}
+ const url=provider==="booking"?data.links.hotels:"https://www.trip.com/";
+ window.open(url,"_blank");
+}
+
+function flightSearch(){
+ const origin=document.getElementById("flightOrigin").value.trim();
+ const destination=document.getElementById("flightDestination").value.trim();
+ if(!origin||!destination){alert("Escribe origen y destino.");return}
+ window.open(data.links.flights,"_blank");
+}
+
+/* CAMBIO */
+
+function calculateExchange(){
+ const amount=Number(document.getElementById("exchangeAmount").value)||0;
+ const from=document.getElementById("fromCurrency").value;
+ const to=document.getElementById("toCurrency").value;
+ const rates={USD:data.rates.USD,EUR:data.rates.EUR,RUB:data.rates.RUB,CUP:1};
+ const result=amount*rates[from]/rates[to];
+ document.getElementById("exchangeResult").textContent=money(result)+" "+to;
+}
+
+function refreshRates(){
+ document.getElementById("rateDisplay").textContent=
+ `USD: ${money(data.rates.USD)} CUP · EUR: ${money(data.rates.EUR)} CUP · RUB: ${money(data.rates.RUB)} CUP`;
+ document.getElementById("rateDate").textContent="Tasas publicadas manualmente. No son cotizaciones en tiempo real.";
+ calculateExchange();
+}
+
+/* DIRECTORIOS Y SOLICITUDES */
+
+function renderDirectories(){
+ const sets=[
+  ["serviceCards",[
+   ["🔧","Reparaciones","Servicios técnicos y mantenimiento."],
+   ["💻","Informática","Diseño, programación y soporte."],
+   ["🚚","Transporte","Mudanzas y transporte."],
+   ["📚","Educación","Clases particulares y cursos."],
+   ["🏡","Hogar","Limpieza y mantenimiento."],
+   ["🌐","Traducción","Servicios de idiomas."]
+  ]],
+  ["classifiedCards",[
+   ["🏠","Inmobiliaria","Alquiler y venta de propiedades."],
+   ["🚗","Vehículos","Venta y alquiler de vehículos."],
+   ["📦","Artículos usados","Anuncios de segunda mano."],
+   ["🛠️","Equipos","Maquinaria y herramientas."]
+  ]],
+  ["restaurantCards",[
+   ["🍽️","Restaurantes","Descubre negocios de comida."],
+   ["🍕","Pizzerías","Pizzas y comida preparada."],
+   ["☕","Cafeterías","Café y repostería."]
+  ]],
+  ["jobCards",[
+   ["💼","Empleo","Oportunidades laborales."],
+   ["🏢","Empresas","Publica vacantes."],
+   ["🎓","Prácticas","Experiencias y formación."]
+  ]]
+ ];
+ sets.forEach(([id,items])=>{
+  document.getElementById(id).innerHTML=items.map(x=>`
+   <div class="service-card"><div class="service-icon">${x[0]}</div><h3>${x[1]}</h3><p class="muted">${x[2]}</p><span class="badge">Directorio en desarrollo</span></div>`).join("");
+ });
+}
+
+function submitListing(type){
+ let name="",description="",price="";
+ if(type==="service"){name=document.getElementById("serviceName").value;description=document.getElementById("serviceDescription").value}
+ if(type==="classified"){name=document.getElementById("classifiedName").value;description=document.getElementById("classifiedDescription").value;price=document.getElementById("classifiedPrice").value}
+ if(type==="restaurant"){name=document.getElementById("restaurantName").value;description=document.getElementById("restaurantDescription").value}
+ if(type==="job"){name=document.getElementById("jobName").value;description=document.getElementById("jobDescription").value}
+ if(!name.trim()){alert("Escribe un título o nombre.");return}
+ data.requests.unshift({id:Date.now(),type,name,description,price,status:"Pendiente"});
+ saveData();alert("Solicitud guardada localmente. Será revisada por el administrador en este dispositivo.");
+}
+
+/* VENDEDORES */
+
+function submitSeller(){
+ const name=document.getElementById("sellerName").value.trim();
+ const store=document.getElementById("sellerStore").value.trim();
+ const email=document.getElementById("sellerEmail").value.trim();
+ const phone=document.getElementById("sellerPhone").value.trim();
+ const activity=document.getElementById("sellerActivity").value.trim();
+ if(!name||!store||!email){alert("Completa nombre, tienda y correo.");return}
+ data.vendors.unshift({id:Date.now(),name,store,email,phone,activity,status:"Pendiente"});
+ saveData();
+ alert("Solicitud registrada en este dispositivo. La aprobación todavía no crea una cuenta de vendedor.");
+ go("home");
+}
+
+/* ADMINISTRACIÓN */
+
+function unlockAdmin(){
+ const ADMIN_PASSWORD="CAMBIA-ESTA-CLAVE";
+ if(document.getElementById("adminPassword").value!==ADMIN_PASSWORD){
+  alert("Contraseña incorrecta.");return;
+ }
+ document.getElementById("adminContent").classList.remove("hidden");
+ renderAdmin();
+}
+
+function adminTab(id){
+ document.querySelectorAll(".admin-section").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+}
+
+function renderAdmin(){
+ document.getElementById("adminProductList").innerHTML=data.products.map(p=>`
+  <div class="list-row">
+   <div><b>${escapeHTML(p.name)}</b><div class="muted">${escapeHTML(p.category)} · ${money(p.price)}</div></div>
+   <button class="btn btn-danger" onclick="deleteProduct(${p.id})">Eliminar</button>
+  </div>`).join("");
+ document.getElementById("rateUSD").value=data.rates.USD;
+ document.getElementById("rateEUR").value=data.rates.EUR;
+ document.getElementById("rateRUB").value=data.rates.RUB;
+ document.getElementById("editHeroTitle").value=data.heroTitle;
+ document.getElementById("editHeroText").value=data.heroText;
+ document.getElementById("linkRecharge").value=data.links.recharge;
+ document.getElementById("linkHotels").value=data.links.hotels;
+ document.getElementById("linkFlights").value=data.links.flights;
+ renderRequests();
+ renderVendors();
+}
+
+function addProduct(){
+ const name=document.getElementById("pName").value.trim();
+ const price=Number(document.getElementById("pPrice").value);
+ if(!name||!price||price<=0){alert("Introduce nombre y precio válido.");return}
+ data.products.unshift({
+  id:Date.now(),name,price,old:Number(document.getElementById("pOldPrice").value)||0,
+  image:document.getElementById("pImage").value.trim()||"📦",
+  category:document.getElementById("pCategory").value,
+  description:document.getElementById("pDescription").value.trim()
+ });
+ saveData();renderAdmin();renderProducts();renderFeatured();
+ alert("Producto guardado. Recuerda generar y publicar el nuevo HTML.");
+}
+
+function deleteProduct(id){
+ if(!confirm("¿Eliminar este producto?"))return;
+ data.products=data.products.filter(p=>p.id!==id);
+ data.cart=data.cart.filter(p=>p.id!==id);
+ saveData();renderAdmin();renderProducts();renderFeatured();updateCartCount();
+}
+
+function saveRates(){
+ const USD=Number(document.getElementById("rateUSD").value);
+ const EUR=Number(document.getElementById("rateEUR").value);
+ const RUB=Number(document.getElementById("rateRUB").value);
+ if(USD<=0||EUR<=0||RUB<=0){alert("Todas las tasas deben ser mayores que cero.");return}
+ data.rates={USD,EUR,RUB};
+ saveData();refreshRates();alert("Tasas guardadas. Publica la nueva versión para compartirlas.");
+}
+
+function saveHero(){
+ data.heroTitle=document.getElementById("editHeroTitle").value.trim();
+ data.heroText=document.getElementById("editHeroText").value.trim();
+ saveData();refreshHero();
+ alert("Portada guardada. Genera la nueva versión para publicarla.");
+}
+
+function refreshHero(){
+ document.getElementById("heroTitle").textContent=data.heroTitle;
+ document.getElementById("heroText").textContent=data.heroText;
+}
+
+function saveLinks(){
+ data.links.recharge=document.getElementById("linkRecharge").value.trim();
+ data.links.hotels=document.getElementById("linkHotels").value.trim();
+ data.links.flights=document.getElementById("linkFlights").value.trim();
+ saveData();alert("Enlaces guardados. Publica el HTML actualizado.");
+}
+
+function renderRequests(){
+ const el=document.getElementById("adminRequests");
+ if(!data.requests.length){el.innerHTML="<p class='muted'>No hay solicitudes.</p>";return}
+ el.innerHTML=data.requests.map(r=>`
+  <div class="list-row">
+   <div><b>${escapeHTML(r.name)}</b><div class="muted">${escapeHTML(r.type)} · ${escapeHTML(r.status)}</div><p class="muted">${escapeHTML(r.description)}</p></div>
+   <div><button class="btn btn-green" onclick="requestStatus(${r.id},'Aprobada')">Aprobar</button>
+   <button class="btn btn-danger" onclick="requestStatus(${r.id},'Rechazada')">Rechazar</button></div>
+  </div>`).join("");
+}
+
+function requestStatus(id,status){
+ const r=data.requests.find(x=>x.id===id);if(r)r.status=status;
+ saveData();renderRequests();
+}
+
+function renderVendors(){
+ const el=document.getElementById("adminVendors");
+ if(!data.vendors.length){el.innerHTML="<p class='muted'>No hay solicitudes de vendedores.</p>";return}
+ el.innerHTML=data.vendors.map(v=>`
+  <div class="list-row">
+   <div><b>${escapeHTML(v.store)}</b><div class="muted">${escapeHTML(v.name)} · ${escapeHTML(v.email)}</div><p class="muted">${escapeHTML(v.activity)}</p><span class="badge">${escapeHTML(v.status)}</span></div>
+   <div><button class="btn btn-green" onclick="vendorStatus(${v.id},'Aprobado')">Aprobar</button>
+   <button class="btn btn-danger" onclick="vendorStatus(${v.id},'Rechazado')">Rechazar</button></div>
+  </div>`).join("");
+}
+
+function vendorStatus(id,status){
+ const v=data.vendors.find(x=>x.id===id);if(v)v.status=status;
+ saveData();renderVendors();
+}
+
+/* PUBLICACIÓN MANUAL */
+
+function publishHTML(){
+ saveData();
+ const output=JSON.parse(JSON.stringify(data));
+ output.publishedVersion=Date.now();
+ const html=document.documentElement.outerHTML;
+ const safeJSON=JSON.stringify(output,null,2).replace(/</g,"\\u003c");
+ const replacement='<script type="application/json" id="published-data">'+safeJSON+'<\/script>';
+ const regex=/<script type="application\/json" id="published-data">[\s\S]*?<\/script>/;
+ if(!regex.test(html)){alert("No se encontró el bloque de datos.");return}
+ const finalHTML=html.replace(regex,replacement);
+ const blob=new Blob(["<!DOCTYPE html>\n"+finalHTML],{type:"text/html;charset=utf-8"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;a.download="index.html";document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),3000);
+ document.getElementById("publishStatus").textContent="HTML generado. Sube este index.html a tu repositorio de GitHub Pages, reemplazando el anterior.";
+}
+
+function backupData(){
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ downloadBlob(blob,"shopbridge-respaldo.json");
+}
+
+function restoreData(event){
+ const file=event.target.files[0];if(!file)return;
+ const reader=new FileReader();
+ reader.onload=()=>{
+  const restored=safeParse(reader.result,null);
+  if(!restored||!Array.isArray(restored.products)){alert("Respaldo no válido.");return}
+  data={...INITIAL_DATA,...restored};
+  saveData();refreshAll();renderAdmin();
+  alert("Respaldo restaurado en este dispositivo.");
+ };
+ reader.readAsText(file);
+}
+
+function resetDemo(){
+ if(!confirm("¿Restaurar todos los datos iniciales? Se perderán tus cambios locales."))return;
+ data=JSON.parse(JSON.stringify(INITIAL_DATA));
+ saveData();refreshAll();renderAdmin();
+}
+
+function downloadBlob(blob,name){
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");a.href=url;a.download=name;a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),3000);
+}
+
+function refreshAll(){
+ renderFeatured();renderProducts();renderDirectories();
+ renderRechargeCards();refreshRates();refreshHero();updateCartCount();
+}
+
+document.getElementById("year").textContent=new Date().getFullYear();
+refreshAll();
+</script>
+</body>
+</html>
